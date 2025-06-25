@@ -1,0 +1,33 @@
+<!-- # Project: meity_audit_portal
+# App: users
+# File: users/dashboard_stqc_auditor.html
+# Description: STQC Auditor Dashboard Template -->
+
+{% extends 'base.html' %}
+
+{% block title %}STQC Auditor Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h2>STQC Auditor Dashboard</h2>
+    <p>Conduct audits and submit reports for CSPs.</p>
+</div>
+
+<div class="dashboard-content">
+    <div class="dashboard-card">
+        <h3>Assigned Audits</h3>
+        <p>View audit requests forwarded to you for auditing.</p>
+        <a href="{% url 'audit_request_list' %}" class="btn">View Audits</a>
+    </div>
+    <div class="dashboard-card">
+        <h3>Upload Audit Reports</h3>
+        <p>Upload your audit findings and mark audits as completed.</p>
+        <a href="{% url 'audit_request_list' %}" class="btn">Upload Reports</a> {# Links to list; actions on detail page #}
+    </div>
+    <div class="dashboard-card">
+        <h3>Update Status</h3>
+        <p>Change the status of ongoing audits to 'Completed'.</p>
+        <a href="{% url 'audit_request_list' %}" class="btn">Update Status</a> {# Links to list; actions on detail page #}
+    </div>
+</div>
+{% endblock %}

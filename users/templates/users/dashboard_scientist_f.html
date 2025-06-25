@@ -1,0 +1,33 @@
+<!-- # Project: meity_audit_portal
+# App: users
+# File: users/dashboard_scientist_f.html
+# Description: Scientist F Dashboard Template -->
+
+{% extends 'base.html' %}
+
+{% block title %}Scientist F Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h2>Scientist F Dashboard</h2>
+    <p>Oversee the entire audit lifecycle and provide final remarks.</p>
+</div>
+
+<div class="dashboard-content">
+    <div class="dashboard-card">
+        <h3>All Audit Requests</h3>
+        <p>View all audit requests and their current statuses, including all remarks.</p>
+        <a href="{% url 'audit_request_list' %}" class="btn">View All</a>
+    </div>
+    <div class="dashboard-card">
+        <h3>Final Reviews</h3>
+        <p>Provide final approvals or rejections for completed audits.</p>
+        <a href="{% url 'audit_request_list' %}" class="btn">Finalize Audits</a> {# Links to list; actions on detail page #}
+    </div>
+    <div class="dashboard-card">
+        <h3>Audit Statistics</h3>
+        <p>View analytics and reports on audit processes.</p>
+        <a href="{% url 'audit_request_list' %}" class="btn">View Statistics</a> {# Placeholder for future analytics #}
+    </div>
+</div>
+{% endblock %}

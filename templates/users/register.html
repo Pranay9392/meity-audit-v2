@@ -1,0 +1,29 @@
+<!-- meity_audit_portal/templates/users/register.html -->
+{% extends 'base.html' %}
+
+{% block title %}Register - MeitY Audit Portal{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Register New Account</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in register_form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <ul class="errorlist"><li>{{ error }}</li></ul>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn-primary">Register</button>
+    </form>
+    <div class="form-links">
+        Already have an account? <a href="{% url 'login' %}">Login here</a>.
+    </div>
+</div>
+{% endblock %}

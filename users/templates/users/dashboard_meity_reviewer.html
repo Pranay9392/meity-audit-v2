@@ -1,0 +1,33 @@
+<!-- # Project: meity_audit_portal
+# App: users
+# File: users/dashboard_meity_reviewer.html
+# Description: MeitY Reviewer Dashboard Template -->
+
+{% extends 'base.html' %}
+
+{% block title %}MeitY Reviewer Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h2>MeitY Reviewer Dashboard</h2>
+    <p>Review and process CSP empanelment requests.</p>
+</div>
+
+<div class="dashboard-content">
+    <div class="dashboard-card">
+        <h3>Requests for Audit Assignment</h3>
+        <p>Review new audit requests from CSPs and forward them to STQC.</p>
+        <a href="{% url 'audit_request_list' %}" class="btn">Review Requests</a>
+    </div>
+    <div class="dashboard-card">
+        <h3>All Requests</h3>
+        <p>View all audit requests (including those you've processed).</p>
+        <a href="{% url 'audit_request_list' %}" class="btn">View All</a>
+    </div>
+    <div class="dashboard-card">
+        <h3>Manage Remarks</h3>
+        <p>Add or update remarks on audit requests.</p>
+        <a href="{% url 'audit_request_list' %}" class="btn">Manage Remarks</a> {# Links to list; actions on detail page #}
+    </div>
+</div>
+{% endblock %}

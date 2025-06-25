@@ -1,0 +1,295 @@
+<!-- meity_audit_portal/templates/audit_management/audit_request_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Audit Requests{% endblock %}
+
+{% block content %}
+<style>
+    .section-header {
+        background-color: #e6f7ff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        text-align: center;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        color: #0056b3;
+    }
+    .section-header h2 {
+        margin-bottom: 0.5rem;
+        font-size: 2.2rem;
+    }
+    .section-header p {
+        font-size: 1.1rem;
+        color: #555;
+    }
+
+    .audit-table-container {
+        overflow-x: auto;
+    }
+
+    .audit-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .audit-table th, .audit-table td {
+        padding: 14px 18px;
+        text-align: left;
+        border-bottom: 1px solid #e0e6e9;
+    }
+
+    .audit-table th {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.95rem;
+        letter-spacing: 0.05em;
+    }
+
+    .audit-table tbody tr:nth-child(even) {
+        background-color: #f8fbfd;
+    }
+
+    .audit-table tbody tr:hover {
+        background-color: #eaf6ff;
+        cursor: pointer;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.5em 1em;
+        border-radius: 25px;
+        font-size: 0.85em;
+        font-weight: bold;
+        text-align: center;
+        white-space: nowrap;
+        color: white;
+        text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+    }
+
+    /* Specific status badge colors */
+    .status-Submitted_by_CSP { background-color: #ffc107; color: #343a40; } /* Warning yellow */
+    .status-Forwarded_to_STQC { background-color: #17a2b8; } /* Info blue */
+    .status-Audit_Completed_by_STQC { background-color: #6f42c1; } /* Purple */
+    .status-Approved_by_ScientistF { background-color: #28a745; } /* Success green */
+    .status-Rejected_by_ScientistF { background-color: #dc3545; } /* Danger red */
+
+    .action-link {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    .action-link:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    .no-requests {
+        text-align: center;
+        padding: 3rem;
+        background-color: #f0f4f7;
+        border-radius: 8px;
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-top: 2rem;
+        border: 1px dashed #c0d0e0;
+    }
+    .no-requests a {
+        color: #007bff;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .no-requests a:hover {
+        text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .audit-table thead {
+            display: none;
+        }
+        .audit-table, .audit-table tbody, .audit-table tr, .audit-table td {
+            display: block;
+            width: 100%;
+        }
+        .audit-table tr {
+            margin-bottom: 1rem;
+            border: 1px solid #e0e6e9;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+        }
+        .audit-table td {
+            text-align: right;
+            padding-left: 50%;
+            position: relative;
+        }
+        .audit-table td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 15px;
+            width: calc(50% - 30px);
+            padding-right: 10px;
+            white-space: nowrap;
+            text-align: left;
+            font-weight: bold;
+            color: #555;
+        }
+        .audit-table td:last-child {
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="section-header">
+    {% if user.is_csp %}
+        <h2><i class="fas fa-cloud-upload-alt"></i> My Audit Requests</h2>
+        <p>Overview of your submitted cloud service provider audit requests.</p>
+    {% elif user.is_meity_reviewer %}
+        <h2><i class="fas fa-clipboard-list"></i> MeitY Reviewer Dashboard</h2>
+        <p>Manage pending and reviewed audit requests.</p>
+    {% elif user.is_stqc_auditor %}
+        <h2><i class="fas fa-tasks"></i> Assigned Audits</h2>
+        <p>Audit requests assigned to you for conducting the audit process.</p>
+    {% elif user.is_scientist_f %}
+        <h2><i class="fas fa-globe"></i> All Audit Requests</h2>
+        <p>Comprehensive list of all audit requests across the lifecycle.</p>
+    {% endif %}
+</div>
+
+{% if user.is_meity_reviewer %}
+    <h3 style="color: #007bff; margin-top: 2.5rem; margin-bottom: 1rem; font-size: 1.8rem; border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem;"><i class="fas fa-hourglass-half"></i> Pending Reviews</h3>
+    {% if pending_requests %}
+        <div class="audit-table-container">
+            <table class="audit-table">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Service Provider</th>
+                        <th>Data Center</th>
+                        <th>Request Date</th>
+                        <th>Status</th>
+                        <th>Last Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in pending_requests %}
+                    <tr onclick="window.location.href='{% url 'audit_request_detail' pk=request.pk %}';">
+                        <td data-label="Request ID">#{{ request.id }}</td>
+                        <td data-label="Service Provider">{{ request.service_provider_name }}</td>
+                        <td data-label="Data Center">{{ request.data_center_location }}</td>
+                        <td data-label="Request Date">{{ request.request_date|date:"M d, Y H:i" }}</td>
+                        <td data-label="Status">
+                            <span class="status-badge status-{{ request.status }}">{{ request.get_status_display }}</span>
+                        </td>
+                        <td data-label="Last Updated">{{ request.last_updated|date:"M d, Y H:i" }}</td>
+                        <td data-label="Actions">
+                            <a href="{% url 'audit_request_detail' pk=request.pk %}" class="action-link"><i class="fas fa-info-circle"></i> View Details</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="no-requests">
+            <i class="fas fa-check-double fa-2x"></i><br>
+            No audit requests currently pending your review.
+        </p>
+    {% endif %}
+
+    <h3 style="color: #28a745; margin-top: 3.5rem; margin-bottom: 1rem; font-size: 1.8rem; border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem;"><i class="fas fa-history"></i> Reviewed Requests</h3>
+    {% if reviewed_requests %}
+        <div class="audit-table-container">
+            <table class="audit-table">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Service Provider</th>
+                        <th>Data Center</th>
+                        <th>Request Date</th>
+                        <th>Status</th>
+                        <th>Last Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in reviewed_requests %}
+                    <tr onclick="window.location.href='{% url 'audit_request_detail' pk=request.pk %}';">
+                        <td data-label="Request ID">#{{ request.id }}</td>
+                        <td data-label="Service Provider">{{ request.service_provider_name }}</td>
+                        <td data-label="Data Center">{{ request.data_center_location }}</td>
+                        <td data-label="Request Date">{{ request.request_date|date:"M d, Y H:i" }}</td>
+                        <td data-label="Status">
+                            <span class="status-badge status-{{ request.status }}">{{ request.get_status_display }}</span>
+                        </td>
+                        <td data-label="Last Updated">{{ request.last_updated|date:"M d, Y H:i" }}</td>
+                        <td data-label="Actions">
+                            <a href="{% url 'audit_request_detail' pk=request.pk %}" class="action-link"><i class="fas fa-info-circle"></i> View Details</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="no-requests" style="border-color: #c9e4c9; background-color: #e9f5e9; color: #1a6d1a;">
+            <i class="fas fa-clipboard-check fa-2x"></i><br>
+            No requests have been reviewed by you yet, or are currently being processed by STQC/Scientist F.
+        </p>
+    {% endif %}
+
+{% else %} {# For other roles (CSP, STQC, Scientist F), display the single audit_requests list #}
+    {% if audit_requests %}
+        <div class="audit-table-container">
+            <table class="audit-table">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Service Provider</th>
+                        <th>Data Center</th>
+                        <th>Request Date</th>
+                        <th>Status</th>
+                        <th>Last Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in audit_requests %}
+                    <tr onclick="window.location.href='{% url 'audit_request_detail' pk=request.pk %}';">
+                        <td data-label="Request ID">#{{ request.id }}</td>
+                        <td data-label="Service Provider">{{ request.service_provider_name }}</td>
+                        <td data-label="Data Center">{{ request.data_center_location }}</td>
+                        <td data-label="Request Date">{{ request.request_date|date:"M d, Y H:i" }}</td>
+                        <td data-label="Status">
+                            <span class="status-badge status-{{ request.status }}">{{ request.get_status_display }}</span>
+                        </td>
+                        <td data-label="Last Updated">{{ request.last_updated|date:"M d, Y H:i" }}</td>
+                        <td data-label="Actions">
+                            <a href="{% url 'audit_request_detail' pk=request.pk %}" class="action-link"><i class="fas fa-info-circle"></i> View Details</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="no-requests">
+            <i class="fas fa-folder-open fa-2x"></i><br>
+            No audit requests found for your role or criteria.
+            {% if user.is_csp %}
+                <br>Ready to get started? <a href="{% url 'create_audit_request' %}">Submit your first audit request</a>.
+            {% endif %}
+        </p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

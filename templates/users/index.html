@@ -1,0 +1,193 @@
+<!-- index.html (This file will be the entry point or a landing page. Updated to use Django URL template tags.) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeitY Audit Portal</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #007bff; /* MeitY Blue */
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        header nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Content Area */
+        main {
+            flex-grow: 1;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .welcome-section {
+            background-color: #ffffff;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .welcome-section h2 {
+            color: #007bff;
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+        }
+
+        .welcome-section p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-section .button-group a {
+            display: inline-block;
+            background-color: #28a745; /* Success Green */
+            color: white;
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 0 1rem;
+        }
+
+        .welcome-section .button-group a:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .welcome-section .button-group a:last-child {
+            background-color: #007bff; /* MeitY Blue */
+        }
+        .welcome-section .button-group a:last-child:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #343a40; /* Dark Grey */
+            color: white;
+            text-align: center;
+            padding: 1.5rem 2rem;
+            margin-top: auto;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            header nav {
+                margin-top: 1rem;
+            }
+
+            header nav a {
+                margin: 0 0.5rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .welcome-section {
+                padding: 2rem;
+            }
+
+            .welcome-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .welcome-section p {
+                font-size: 1rem;
+            }
+
+            .welcome-section .button-group {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .welcome-section .button-group a {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MeitY Audit Portal</h1>
+        <nav>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="welcome-section">
+            <h2>Welcome to the MeitY Cloud Service Provider Audit Portal</h2>
+            <p>
+                This portal facilitates the empanelment and audit process for Cloud Service Providers (CSPs)
+                in India, ensuring security, compliance, and transparency.
+                It provides a streamlined workflow for CSPs to submit requests and for MeitY Reviewers,
+                STQC Auditors, and Scientist F authorities to manage and track the audit lifecycle.
+            </p>
+            <div class="button-group">
+                <a href="{% url 'login' %}">Login to Dashboard</a>
+                <a href="{% url 'register' %}">New User Registration</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 pranay MeitY Audit Portal. All rights reserved.</p>
+    </footer>
+</body>
+</html>
