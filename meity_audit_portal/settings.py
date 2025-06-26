@@ -126,3 +126,8 @@ AUTH_USER_MODEL = 'users.CustomUser' # Point to our custom user model
 LOGIN_URL = 'login' # Name of the URL pattern for login
 LOGIN_REDIRECT_URL = 'dashboard' # Name of the URL pattern to redirect after login
 LOGOUT_REDIRECT_URL = 'login' # Name of the URL pattern to redirect after logout
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://meity-audit-v1.onrender.com',
+]
