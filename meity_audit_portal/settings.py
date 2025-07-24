@@ -66,6 +66,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'meity_audit_portal.wsgi.application'
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',
+]
+
+
+
 # Database
 # Using SQLite for simplicity. For production, consider PostgreSQL, MySQL, etc.
 # [https://docs.djangoproject.com/en/5.0/ref/settings/#databases](https://docs.djangoproject.com/en/5.0/howto/databases/)
