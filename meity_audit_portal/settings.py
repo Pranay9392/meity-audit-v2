@@ -68,6 +68,7 @@ WSGI_APPLICATION = 'meity_audit_portal.wsgi.application'
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
+    'https://meity-audit-v2-1.onrender.com',
 ]
 
 
