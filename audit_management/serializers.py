@@ -3,6 +3,10 @@
 # File: audit_management/serializers.py
 # Description: Defines serializers for AuditRequest, Document, and Remark models for API use.
 
+
+# audit_management/serializers.py
+
+
 from rest_framework import serializers
 from .models import AuditRequest, Document, Remark
 from users.serializers import CustomUserSerializer # Import CustomUserSerializer
@@ -72,3 +76,11 @@ class AuditRequestStatusUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuditRequest
         fields = ['status']
+
+class AuditRequestStatusUpdateWithCertificateSerializer(AuditRequestStatusUpdateSerializer):
+    # We extend the base serializer to add the certificate field,
+    # which is required specifically for the Scientist F approval.
+    certificate_of_empanelment = serializers.FileField(required=False)
+    
+    class Meta(AuditRequestStatusUpdateSerializer.Meta):
+        fields = AuditRequestStatusUpdateSerializer.Meta.fields + ['certificate_of_empanelment']

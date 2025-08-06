@@ -3,6 +3,24 @@
 # File: audit_management/api_views.py
 # Description: API views for AuditRequest, Document, and Remark models using Django REST Framework.
 
+
+# Project: meity_audit_portal
+# App: audit_management
+# File: audit_management/api_views.py
+# Description: API views for AuditRequest, Document, and Remark models using Django REST Framework.
+# Project: meity_audit_portal
+# App: audit_management
+# File: audit_management/api_views.py
+# Description: API views for AuditRequest, Document, and Remark models using Django REST Framework.
+
+
+# Project: meity_audit_portal
+# App: audit_management
+# File: audit_management/api_views.py
+# Description: API views for AuditRequest, Document, and Remark models using Django REST Framework.
+
+
+
 from rest_framework import generics, permissions, status
 from rest_framework.parsers import MultiPartParser, FormParser # For file uploads
 from rest_framework.response import Response
