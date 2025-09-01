@@ -8,25 +8,9 @@ The backend powers features such as **authentication, role-based workflows, audi
 ---
 
 ## 🏗️ System Architecture
-
-```mermaid
-flowchart TD
-    subgraph MobileApp[📱 MeitY Audit Mobile App (React Native)]
-        A[CSP] -->|Submits Request| B[API Gateway]
-        A2[STQC Auditor] -->|Reviews| B
-        A3[MeitY Reviewer] -->|Approves/Rejects| B
-        A4[Scientist F] -->|Issues Certificate| B
-    end
-
-    subgraph Backend[🖥️ Django Backend]
-        B[REST API Endpoints] --> C[Authentication & RBAC]
-        B --> D[Audit Request Management]
-        B --> E[Document Management]
-        D --> F[(PostgreSQL Database)]
-        E --> F
-    end
-```
-
+<div>
+    <img src="flowchar_miety.png" alt="Home Screen" style="width: 30%; display: inline-block; margin-right: 1%;"/>
+</div>
 > The mobile app communicates with the Django backend through **RESTful APIs**, which handle **RBAC, audit workflows, and secure file storage**.
 
 ---
