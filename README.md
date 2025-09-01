@@ -9,9 +9,9 @@ The backend powers features such as **authentication, role-based workflows, audi
 
 ## 🏗️ System Architecture
 <div>
-    <img src="flowchar_meity.png" alt="Home Screen" style="width: 30%; display: inline-block; margin-right: 1%;"/>
+    <img src="flowchart_meity.png" alt="Home Screen" style="width: 30%; display: inline-block; margin-right: 1%;"/>
 </div>
-**The mobile app communicates with the Django backend through **RESTful APIs**, which handle **RBAC, audit workflows, and secure file storage**.
+The mobile app communicates with the Django backend through **RESTful APIs**, which handle **RBAC, audit workflows, and secure file storage**.
 
 ---
 
